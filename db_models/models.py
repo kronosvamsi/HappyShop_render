@@ -108,7 +108,6 @@ class User(Base):
 engine = create_engine(
          settings.DATABASE_URL,
          pool_recycle=3600,
-        #  connect_args=CONNECT_ARGS,
          echo=True)
 
 Base.metadata.create_all(engine)
