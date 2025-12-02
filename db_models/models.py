@@ -99,7 +99,10 @@ class User(Base):
 # Aiven requires encrypted connections, so we enforce it with ssl_mode='REQUIRED'
 CONNECT_ARGS = {
     # The key MUST be 'ssl_mode' (with an underscore) for mysql-connector-python
-    "ssl_mode": "REQUIRED" 
+    "ssl":{
+         "ssl_mode": "REQUIRED" 
+    }
+   
 }
 
 engine = create_engine(
