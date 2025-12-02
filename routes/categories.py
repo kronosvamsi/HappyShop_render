@@ -1,10 +1,10 @@
 from  fastapi import APIRouter,Depends,HTTPException,status
 from sqlalchemy.orm import Session
 from fastapi.responses import JSONResponse
-from sqlalchemy.exc import IntegrityError, OperationalError
+from sqlalchemy.exc import IntegrityError, OperationalError,DataError
 from data_models.pyd_models import CategoryModel
 from db_models.models import Category,get_db
-
+import logging
 
 
 router = APIRouter(
@@ -58,6 +58,7 @@ def get_category_by_id(category_id:int, session:Session = Depends(get_db)):
     data_item = CategoryModel.model_validate(category_item).model_dump()
     return JSONResponse(content={"message":"Item found","item":data_item},status_code=200)
 
+logger = logging.getLogger(__name__)
 @router.post("/addCategory")
 def add_category(new_category:CategoryModel, session:Session =  Depends(get_db)):
     try:
@@ -69,16 +70,22 @@ def add_category(new_category:CategoryModel, session:Session =  Depends(get_db))
     
     except IntegrityError:
         session.rollback()
+        logger.error(f"Database Integrity/Data Error: {e}")
         raise HTTPException(
                 status_code=status.HTTP_409_CONFLICT, 
                 detail="Data conflict (e.g., duplicate unique key or missing foreign key).")
     except OperationalError:
         # Catches connection issues, server offline, etc.
         session.rollback()
+        logger.error(f"Database Operational Error: {e}")
         raise HTTPException(
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
             detail="Database service is unavailable or connection failed."
         )
+    except Exception as e:
+        session.rollback()
+        logger.error(f"UNHANDLED ERROR IN ADD_CATEGORY: {e}")
+        raise 
 
     return JSONResponse(content="Item added",status_code=200)
 
