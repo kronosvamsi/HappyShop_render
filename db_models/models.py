@@ -105,8 +105,15 @@ class User(Base):
    
 # }
 
+# PyMySQL 1.1.2 requires the 'ssl' argument to be a dictionary, 
+# even if empty, to activate TLS encryption for services like Aiven.
+PYMYSQL_CONNECT_ARGS = {
+    'ssl': {}  
+}
+
 engine = create_engine(
          settings.DATABASE_URL,
+         connect_args=PYMYSQL_CONNECT_ARGS,
          pool_recycle=3600,
          echo=True)
 
