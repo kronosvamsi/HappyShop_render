@@ -2,6 +2,7 @@ from sqlalchemy import create_engine,Column,Integer,String,Float,ForeignKey
 from sqlalchemy.orm import relationship, declarative_base,sessionmaker
 from google.cloud.sql.connector import Connector
 import os
+from .config import settings
 # class Base(declarative_base()):
 
 #     pass
@@ -93,9 +94,9 @@ class User(Base):
 #     pool_recycle=1800
 # )
 
-DB_URL= "mysql+mysqlconnector://root:mysql1234@127.0.0.1:3306/my_db"
+# DB_URL= "mysql+mysqlconnector://root:mysql1234@127.0.0.1:3306/my_db"
 
-engine = create_engine(DB_URL, echo=True)
+engine = create_engine(settings.DATABASE_URL,pool_recycle=3600, echo=True)
 
 Base.metadata.create_all(engine)
 

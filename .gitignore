@@ -1,3 +1,4 @@
 myenv/
 # Environnment folder
-
+### env folder
+.env
