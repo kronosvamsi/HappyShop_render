@@ -68,13 +68,13 @@ def add_category(new_category:CategoryModel, session:Session =  Depends(get_db))
         session.commit()
         session.refresh(db_category)
     
-    except IntegrityError:
+    except IntegrityError as e:
         session.rollback()
         logger.error(f"Database Integrity/Data Error: {e}")
         raise HTTPException(
                 status_code=status.HTTP_409_CONFLICT, 
                 detail="Data conflict (e.g., duplicate unique key or missing foreign key).")
-    except OperationalError:
+    except OperationalError as e:
         # Catches connection issues, server offline, etc.
         session.rollback()
         logger.error(f"Database Operational Error: {e}")
