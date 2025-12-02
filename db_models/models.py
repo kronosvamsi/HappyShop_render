@@ -96,7 +96,17 @@ class User(Base):
 
 # DB_URL= "mysql+mysqlconnector://root:mysql1234@127.0.0.1:3306/my_db"
 
-engine = create_engine(settings.DATABASE_URL,pool_recycle=3600, echo=True)
+# Aiven requires encrypted connections, so we enforce it with ssl_mode='REQUIRED'
+CONNECT_ARGS = {
+    # The key MUST be 'ssl_mode' (with an underscore) for mysql-connector-python
+    "ssl_mode": "REQUIRED" 
+}
+
+engine = create_engine(
+         settings.DATABASE_URL,
+         pool_recycle=3600,
+         connect_args=CONNECT_ARGS,
+         echo=True)
 
 Base.metadata.create_all(engine)
 
