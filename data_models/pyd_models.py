@@ -40,3 +40,40 @@ class UserModel(BaseModel):
     class Config:
         from_attributes= True
 
+
+class ProductInput(BaseModel):
+    category_id:int
+    name:str
+    quantity:int
+    price:float
+
+    class Config:
+        from_attributes=True
+
+class CategoryInput(BaseModel):
+    
+    name:str
+
+    class Config:
+        from_attributes = True
+
+class OrderInput(BaseModel):
+   
+    product_id:int
+    user_id:int
+    firstname:str
+    lastname:str
+    address:str
+
+    class Config:
+        from_attributes= True
+
+class UserInput(BaseModel):
+    
+    name:str
+    firstname:str
+    lastname:str
+    email:str
+
+    class Config:
+        from_attributes= True

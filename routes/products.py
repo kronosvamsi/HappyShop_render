@@ -1,6 +1,6 @@
 from  fastapi import APIRouter,Depends,HTTPException,status
 from db_models.models import get_db,Product
-from data_models.pyd_models import ProductModel
+from data_models.pyd_models import ProductModel,ProductInput
 from sqlalchemy.orm import Session
 from fastapi.responses import JSONResponse
 from sqlalchemy.exc import IntegrityError, OperationalError
@@ -53,7 +53,7 @@ def get_product_by_id(product_id:int, session:Session = Depends(get_db)):
     return JSONResponse(content= f"Product with ID {product_id} found",status_code=200)
 
 @router.post('/addProduct')
-def add_product(new_product:ProductModel, session:Session = Depends(get_db)):
+def add_product(new_product:ProductInput, session:Session = Depends(get_db)):
     try:
         product_item=new_product.model_dump()
         db_product=Product(**product_item)

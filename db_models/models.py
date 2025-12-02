@@ -12,7 +12,7 @@ Base = declarative_base()
 class Category(Base):
     __tablename__ = "categories"
 
-    id=Column(Integer, primary_key=True)
+    id=Column(Integer, primary_key=True,autoincrement=True)
     name=Column(String(50), nullable=False)
     products=relationship("Product",back_populates="category_rel")
     
@@ -20,7 +20,7 @@ class Category(Base):
 class Product(Base):
     __tablename__ = "products"
 
-    id = Column(Integer,primary_key=True)
+    id = Column(Integer,primary_key=True,autoincrement=True)
     name = Column(String(50))
     category_id = Column(Integer,ForeignKey("categories.id"))
     quantity = Column(Integer,default=0)
@@ -33,7 +33,7 @@ class Order(Base):
 
     __tablename__ = "orders"
 
-    id=Column(Integer, primary_key=True)
+    id=Column(Integer, primary_key=True,autoincrement=True)
     product_id= Column(Integer,ForeignKey("products.id"))
     user_id=Column(Integer, ForeignKey("users.id"))
     firstname=Column(String(50))
@@ -47,7 +47,7 @@ class Order(Base):
 class User(Base):
     __tablename__ = "users"
 
-    id= Column(Integer, primary_key=True)
+    id= Column(Integer, primary_key=True,autoincrement=True)
     name=Column(String(50))
     firstname=Column(String(50))
     lastname=Column(String(50))
