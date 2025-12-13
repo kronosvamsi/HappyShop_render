@@ -1,3 +1,3 @@
 ## This is a Ecommerce application. 
-FAST API provides power as a backend. 
+FAST API utilized for backend. 
 Deployed in render at [link](https://happyshop-render.onrender.com)
