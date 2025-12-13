@@ -27,7 +27,7 @@ def get_root():
     <head> 
     <title> Happyshop APi Info </title>
     </head>
-    <body>
+    <body style="background-color:#010b13;color:white;text-align:center;">
     <h1> Welcome to Happyshop Docs !!</h1>
     <p>This is a happyshop api documentation </p>
     <p> There are 3 custom api endpoints:
@@ -38,11 +38,11 @@ def get_root():
     </ul>
     <h2>Categories End points </h2>
     <ul>
-     <li>/categories => It fecthes the category Items from DB  </li>
-     <li>/categories/category/category_id:int => To fetch the single category item by id  </li>
-     <li>/categories/addCategory =>  To add the new category item  </li>
-     <li>/categories/updateCategory/category_id:int =>  It fecthes the category Items from DB  </li>
-     <li>/categories/deleteCategory/category_id:int => It fecthes the category Items from DB  </li>
+     <li> <code style = "color:#242424"> /categories </code>     =>  It fecthes the category Items from DB  </li>
+     <li> <code style = "color:#242424"> /categories/category/category_id:int </code>     => To fetch the single category item by id  </li>
+     <li> <code style = "color:#242424"> /categories/addCategory </code>    =>  To add the new category item  </li>
+     <li> <code style = "color:#242424"> /categories/updateCategory/category_id:int </code>     =>   To update the category item by id  </li>
+     <li> <code style = "color:#242424">  /categories/deleteCategory/category_id:int </code>    =>   To delete the category item from DB by id  </li>
      </ul>
      
      <p> Go to url <a href="https://happyshop-render.onrender.com/docs"> happyshop_api_docs </a> to get more info </p>
