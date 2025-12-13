@@ -4,6 +4,7 @@ from data_models.pyd_models import ProductModel,CategoryModel
 # from  db_models.models import Product
 from sqlalchemy.exc import IntegrityError, OperationalError
 from pydantic import ValidationError
+from fastapi.responses import HTMLResponse
 from routes import products,categories,users
 
 app=FastAPI()
@@ -19,45 +20,36 @@ def get_db():
     finally:
         session.close()
 
-@app.get("/")
+@app.get("/",response_class=HTMLResponse)
 def get_root():
-    return {"message":"Welcome to Happy shop"}
+    return f"""
+    <html>
+    <head> 
+    <title> Happyshop APi Info </title>
+    </head>
+    <body>
+    <h1> Welcome to Happyshop Docs !!</h1>
+    <p>This is a happyshop api documentation </p>
+    <p> There are 3 custom api endpoints:
+    <ul>
+    <li> Categories </li>
+    <li> Products </li>
+    <li> Categories </li>
+    </ul>
+    <h2>Categories End points </h2>
+    <ul>
+     <li>/categories => It fecthes the category Items from DB  </li>
+     <li>/categories/category/category_id:int => To fetch the single category item by id  </li>
+     <li>/categories/addCategory =>  To add the new category item  </li>
+     <li>/categories/updateCategory/category_id:int =>  It fecthes the category Items from DB  </li>
+     <li>/categories/deleteCategory/category_id:int => It fecthes the category Items from DB  </li>
+     </ul>
+     
+     <p> Go to url <a href="https://happyshop-render.onrender.com/docs"> happyshop_api_docs </a> to get more info </p>
+     </body>
+    
+    </html>
 
-@app.post("/addCategory")   
-def add_category(new_category:CategoryModel, session:Session = Depends(get_db)):
-    try:
-        category_add=new_category.model_dump()
-        del category_add['id']
-        db_category=Category(**category_add)
-        session.add(db_category)
-        session.commit()
-        session.refresh(db_category)
-    
-    except IntegrityError:
-        session.rollback()
-        raise HTTPException(status_code=status.HTTP_409_CONFLICT, 
-                detail="Data conflict (e.g., duplicate unique key or missing foreign key).") 
-
-    except OperationalError:
-        # Catches connection issues, server offline, etc.
-        session.rollback()
-        raise HTTPException(
-            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
-            detail="Database service is unavailable or connection failed."
-        )
-    except AttributeError:
-        # This usually signals a bug in your code
-        session.rollback()
-        print("LOG: Critical AttributeError detected in post creation logic.")
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, 
-                            detail="A critical application error occurred.")
-    
-    except Exception as e:
-        session.rollback()
-        print(f"LOG: Unhandled exception: {e}") # Log the specific error for debugging
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, 
-                            detail="An unexpected internal error occurred.")
-    
-    return {"message":"Item added", "item":db_category}
+     """
 
 
