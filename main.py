@@ -6,8 +6,21 @@ from sqlalchemy.exc import IntegrityError, OperationalError
 from pydantic import ValidationError
 from fastapi.responses import HTMLResponse
 from routes import products,categories,users
+from fastapi.middleware.cors import CORSMiddleware
 
 app=FastAPI()
+
+origins = [
+    "http://localhost:5173"    ## react app url
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins = True,
+    allow_credentials=True,      # Allows cookies/authorization headers to be sent
+    allow_methods=["*"],         # Allows all HTTP methods (GET, POST, PUT, DELETE, etc.)
+    allow_headers=["*"],
+)
 
 app.include_router(products.router)
 app.include_router(categories.router)

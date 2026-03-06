@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine,Column,Integer,String,Float,ForeignKey
+from sqlalchemy import create_engine,Column,Integer,String,Float,ForeignKey,Boolean
 from sqlalchemy.orm import relationship, declarative_base,sessionmaker
 # from google.cloud.sql.connector import Connector
 import os
@@ -52,6 +52,9 @@ class User(Base):
     firstname=Column(String(50))
     lastname=Column(String(50))
     email=Column(String(50))
+    hashed_password = Column(String)
+    is_active = Column(Boolean, default=True)
+    role = Column(String, default="user")  ## admin,user
     orders=relationship("Order",back_populates="user")
 
 

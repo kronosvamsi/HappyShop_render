@@ -4,6 +4,9 @@ from fastapi.responses import JSONResponse
 from sqlalchemy.exc import IntegrityError, OperationalError
 from db_models.models import User,get_db
 from data_models.pyd_models import UserModel
+from fastapi.security import OAuth2PasswordRequestForm
+from core.dependencies import get_current_user
+from core.security import hash_password,verify_password,create_access_token
 
 router = APIRouter(
     prefix = "/users",
@@ -148,3 +151,44 @@ def delete_user(user_id:int, session:Session = Depends(get_db)):
 
     return JSONResponse(content= f"The user ID {user_id} deleted ",status_code=200)
 
+
+@router.post("/register")
+def register(email: str, password: str, db: Session = Depends(get_db)):
+    hashed_pw = hash_password(password)
+    user = User(email=email, hashed_password=hashed_pw)
+    db.add(user)
+    db.commit()
+    return {"message": "User created successfully"}
+
+
+# @router.post("/login")
+# def login(
+#     form_data: OAuth2PasswordRequestForm = Depends(),
+#     db: Session = Depends(get_db)
+# ):
+#     user = db.query(User).filter(User.email == form_data.username).first()
+
+#     if not user or not verify_password(form_data.password, user.hashed_password):
+#         raise HTTPException(
+#             status_code=status.HTTP_401_UNAUTHORIZED,
+#             detail="Invalid credentials"
+#         )
+
+#     token = create_access_token({"sub": user.email, "role": user.role})
+#     return {"access_token": token, "token_type": "bearer"}
+
+
+# @router.get("/profile")
+# def get_profile(current_user: User = Depends(get_current_user)):
+#     return {
+#         "email": current_user.email,
+#         "role": current_user.role
+#     }
+
+
+# def require_role(role: str):
+#     def role_checker(user: User = Depends(get_current_user)):
+#         if user.role != role:
+#             raise HTTPException(status_code=403, detail="Access denied")
+#         return user
+#     return role_checker
