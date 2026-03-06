@@ -4,9 +4,9 @@ from fastapi.responses import JSONResponse
 from sqlalchemy.exc import IntegrityError, OperationalError
 from db_models.models import User,get_db
 from data_models.pyd_models import UserModel
-from fastapi.security import OAuth2PasswordRequestForm
-from core.dependencies import get_current_user
-from core.security import hash_password,verify_password,create_access_token
+# from fastapi.security import OAuth2PasswordRequestForm
+# from core.dependencies import get_current_user
+# from core.security import hash_password,verify_password,create_access_token
 
 router = APIRouter(
     prefix = "/users",
