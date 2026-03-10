@@ -1,11 +1,9 @@
-from sqlalchemy import create_engine,Column,Integer,String,Float,ForeignKey,Boolean
+from sqlalchemy import create_engine,Column,Integer,String,Float,ForeignKey,Boolean,DateTime
 from sqlalchemy.orm import relationship, declarative_base,sessionmaker
 # from google.cloud.sql.connector import Connector
 import os
+from datetime import datetime
 from config import settings
-# class Base(declarative_base()):
-
-#     pass
 
 Base = declarative_base()
 
@@ -48,13 +46,13 @@ class User(Base):
     __tablename__ = "users"
 
     id= Column(Integer, primary_key=True,autoincrement=True)
-    name=Column(String(50))
     firstname=Column(String(50))
     lastname=Column(String(50))
-    email=Column(String(50))
-    hashed_password = Column(String)
+    email=Column(String(50),unique=True, index=True, nullable=False)
+    hashed_password = Column(String(200),nullable=False)
     is_active = Column(Boolean, default=True)
-    role = Column(String, default="user")  ## admin,user
+    created_at = Column(DateTime, default=datetime.utcnow)
+    role = Column(String(50), default="user")  ## admin,user
     orders=relationship("Order",back_populates="user")
 
 

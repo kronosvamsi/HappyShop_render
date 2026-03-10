@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel,ConfigDict
 from typing import Optional
 
 
@@ -32,14 +32,23 @@ class OrderModel(BaseModel):
 
 class UserModel(BaseModel):
     id:Optional[int] = None
-    name:str
     firstname:str
     lastname:str
     email:str
+    password:str
+    model_config = ConfigDict(from_attributes=True)
 
-    class Config:
-        from_attributes= True
+class UserResponse(BaseModel):
+    id: int
+    firstname: str
+    lastname: str|None = None
+    email: str
 
+    model_config = ConfigDict(from_attributes=True)
+
+class LoginRequest(BaseModel):
+    email:str
+    password:str
 
 class ProductInput(BaseModel):
     category_id:int

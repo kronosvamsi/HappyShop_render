@@ -3,7 +3,8 @@ from sqlalchemy.orm import Session
 from fastapi.responses import JSONResponse
 from sqlalchemy.exc import IntegrityError, OperationalError
 from db_models.models import User,get_db
-from data_models.pyd_models import UserModel
+from data_models.pyd_models import UserModel,UserResponse
+
 # from fastapi.security import OAuth2PasswordRequestForm
 # from core.dependencies import get_current_user
 # from core.security import hash_password,verify_password,create_access_token
@@ -14,35 +15,16 @@ router = APIRouter(
     dependencies = [Depends(get_db)]
 )
 
-@router.get("/")
+@router.get("/",response_model= list[UserResponse])
 async def get_users(session:Session = Depends(get_db)):
-    try:
-        db_users = session.query(User).all()
-        if len(db_users) == 0:
-            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="The users list in db is empty")
+  
+    db_users = session.query(User).all()
+    # print("DB USERS:", db_users)
+    if len(db_users) == 0:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="The users list in db is empty")
         
-       
-    except IntegrityError:
-        session.rollback()
-        raise HTTPException(status_code=status.HTTP_409_CONFLICT, 
-                detail="Data conflict (e.g., duplicate unique key or missing foreign key).")
-    except OperationalError:
-        # Catches connection issues, server offline, etc.
-        session.rollback()
-        raise HTTPException(
-            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
-            detail="Database service is unavailable or connection failed."
-        )
-    except Exception as e:
-        session.rollback()
-        print(f"Log- unhandled exception {e}")
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail= f"Unexpected error came in process "
-
-        )
-    data_items = [UserModel.model_validate(userobj).model_dump() for userobj in db_users]
-    return JSONResponse(content={"message":"Usermodel items fetched from DB","items":data_items},status_code=200)
+    # data_items = [UserResponse.model_validate(userobj).model_dump() for userobj in db_users]
+    return db_users
 
 
 @router.get("/user/{user_id}")
@@ -152,13 +134,7 @@ def delete_user(user_id:int, session:Session = Depends(get_db)):
     return JSONResponse(content= f"The user ID {user_id} deleted ",status_code=200)
 
 
-@router.post("/register")
-def register(email: str, password: str, db: Session = Depends(get_db)):
-    hashed_pw = hash_password(password)
-    user = User(email=email, hashed_password=hashed_pw)
-    db.add(user)
-    db.commit()
-    return {"message": "User created successfully"}
+
 
 
 # @router.post("/login")

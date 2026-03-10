@@ -5,7 +5,7 @@ from data_models.pyd_models import ProductModel,CategoryModel
 from sqlalchemy.exc import IntegrityError, OperationalError
 from pydantic import ValidationError
 from fastapi.responses import HTMLResponse
-from routes import products,categories,users
+from routes import products,categories,users,auth
 from fastapi.middleware.cors import CORSMiddleware
 
 app=FastAPI()
@@ -25,6 +25,7 @@ app.add_middleware(
 app.include_router(products.router)
 app.include_router(categories.router)
 app.include_router(users.router)
+app.include_router(auth.router)
 
 def get_db():
     session=Session()

@@ -5,6 +5,9 @@ from sqlalchemy.orm import Session
 from fastapi.responses import JSONResponse
 from sqlalchemy.exc import IntegrityError, OperationalError
 from services import product_service
+from core.security import get_current_user
+from db_models.models import User
+
 router= APIRouter(
     prefix="/products",
     tags=["products"],
