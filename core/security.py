@@ -37,26 +37,23 @@ def verify_token(token: str):
 
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        print("payload",payload)
+        # print("payload",payload)
         user_id: int = int(payload.get("sub"))
 
         if user_id is None:
-            raise HTTPException(status_code=401, detail="Invalid token")
+            raise HTTPException(status_code=401, detail="UnAuthorized user")
 
         return user_id
 
     except JWTError:
-        raise HTTPException(status_code=401, detail="Token invalid")
+        raise HTTPException(status_code=401, detail="Token invalid or token Expired")
 
 def get_current_user(
     token: str = Depends(oauth2_scheme),
     db: Session = Depends(get_db)
 ):
-
     user_id = verify_token(token)
-
     user = db.query(User).filter(User.id == user_id).first()
-
     if user is None:
         raise HTTPException(status_code=401, detail="User not found")
 

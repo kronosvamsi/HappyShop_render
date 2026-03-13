@@ -12,6 +12,12 @@ class ProductModel(BaseModel):
     class Config:
         from_attributes=True
 
+class ProductUpdate(BaseModel):
+    category_id:Optional[int] =None
+    name:Optional[str] = None
+    quantity:Optional[int] = None
+    price:Optional[float] = None
+
 class CategoryModel(BaseModel):
     id:Optional[int] =None
     name:str

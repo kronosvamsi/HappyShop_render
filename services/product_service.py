@@ -7,10 +7,6 @@ def getProducts(session):
     try:
         db_products=session.query(Product).all()
     
-    except IntegrityError:
-        session.rollback()
-        raise HTTPException(status_code=status.HTTP_409_CONFLICT, 
-                detail="Data conflict (e.g., duplicate unique key or missing foreign key).")
     except OperationalError:
         # Catches connection issues, server offline, etc.
         session.rollback()
@@ -35,11 +31,6 @@ def getProduct(session,product_id):
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
             detail="Database service is unavailable or connection failed."
         )
-    
-    except IntegrityError:
-        session.rollback()
-        raise HTTPException(status_code=status.HTTP_409_CONFLICT, 
-                detail="Data conflict (e.g., duplicate unique key or missing foreign key).")
     
     return ProductModel.model_validate(db_product).model_dump()
 
@@ -75,17 +66,17 @@ def addProduct(session,new_product):
     pass
 
 
-def updateProduct(session, update_item,product_id = 1):
+def updateProduct(session, update_item,product_id):
     try:
         db_prod = session.get(Product,product_id)
         if db_prod is None:
             raise HTTPException(status_code=404, detail=f"The product with ID{product_id} not found")
         
-        update_item = update_item.model_dump(exclude_unset=True)
+        update_item = update_item.model_dump(exclude_unset=True)        
+        
         for key,val in update_item.items():
             setattr(db_prod,key,val)
-        
-        session.add(db_prod)
+      
         session.commit()
         session.refresh(db_prod)
     

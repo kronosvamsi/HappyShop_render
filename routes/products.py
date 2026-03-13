@@ -1,6 +1,6 @@
 from  fastapi import APIRouter,Depends,HTTPException,status
 from db_models.models import get_db,Product
-from data_models.pyd_models import ProductModel,ProductInput
+from data_models.pyd_models import ProductModel,ProductInput,ProductUpdate
 from sqlalchemy.orm import Session
 from fastapi.responses import JSONResponse
 from sqlalchemy.exc import IntegrityError, OperationalError
@@ -11,7 +11,7 @@ from db_models.models import User
 router= APIRouter(
     prefix="/products",
     tags=["products"],
-    dependencies=[Depends(get_db)]
+    dependencies=[Depends(get_db), Depends(get_current_user)]
 )
 
 @router.get("/")
@@ -32,7 +32,7 @@ def add_product(new_product:ProductInput, session:Session = Depends(get_db)):
 
 
 @router.put("/{product_id}")
-def update_product(product_id:int,product_up:ProductModel, session:Session = Depends(get_db)):
+def update_product(product_id:int,product_up:ProductUpdate, session:Session = Depends(get_db)):
     data = product_service.updateProduct(session,product_up,product_id=product_id)
     return JSONResponse(content={"message":"item updated","data":data},status_code=200)
 
