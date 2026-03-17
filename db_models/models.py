@@ -1,5 +1,6 @@
 from sqlalchemy import create_engine,Column,Integer,String,Float,ForeignKey,Boolean,DateTime
 from sqlalchemy.orm import relationship, declarative_base,sessionmaker
+from sqlalchemy.sql import func
 # from google.cloud.sql.connector import Connector
 import os
 from datetime import datetime
@@ -55,7 +56,15 @@ class User(Base):
     role = Column(String(50), default="user")  ## admin,user
     orders=relationship("Order",back_populates="user")
 
+class UserSession(Base):
+    __tablename__ = "user_sessions"
 
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey("users.id"))
+    refresh_token_hash = Column(String(200))
+    revoked = Column(Boolean, default=False)
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
+    expires_at = Column(DateTime)
 
 # Get these from environment variables for security in Cloud Run/App Engine
 # DB_USER = os.environ.get("DB_USER")          # e.g., 'app_user'

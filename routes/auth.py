@@ -36,10 +36,16 @@ def login( db: Session = Depends(get_db),form_data:OAuth2PasswordRequestForm = D
 
     if not verify_password(form_data.password, user.hashed_password):
         raise HTTPException(status_code=401, detail="Invalid credentials (password)")
+    
+    token = auth_service.login_user(db,user)
+    return token
 
-    token = create_access_token(user.id)
+@router.post("/refresh")
+def refresh(refresh_token: str, db: Session = Depends(get_db)):
 
-    return {
-        "access_token": token,
-        "token_type": "bearer"
-    }
+    return auth_service.refresh_access_token(db, refresh_token)
+
+@router.post("/logout")
+def refresh(refresh_token: str, db: Session = Depends(get_db)):
+
+    return auth_service.logout_user(db, refresh_token)

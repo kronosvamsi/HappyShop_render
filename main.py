@@ -27,12 +27,12 @@ app.include_router(categories.router)
 app.include_router(users.router)
 app.include_router(auth.router)
 
-def get_db():
-    session=Session()
-    try:
-        yield session
-    finally:
-        session.close()
+# def get_db():
+#     session=Session()
+#     try:
+#         yield session
+#     finally:
+#         session.close()
 
 @app.get("/",response_class=HTMLResponse)
 def get_root():
