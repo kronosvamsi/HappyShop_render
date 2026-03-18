@@ -27,7 +27,9 @@ def register(user:UserModel, session:Session = Depends(get_db)):
 
 
 @router.post("/login")
-def login( db: Session = Depends(get_db),form_data:OAuth2PasswordRequestForm = Depends()):
+def login(form_data:LoginRequest, db: Session = Depends(get_db)):
+
+    # print("form", form_data)
 
     user = auth_service.get_user_by_email(db, form_data.username)
 

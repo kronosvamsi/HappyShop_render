@@ -5,7 +5,7 @@ from passlib.context import CryptContext
 from jose import jwt,JWTError
 from fastapi import Depends, HTTPException
 from sqlalchemy.orm import Session
-from fastapi.security import OAuth2PasswordBearer
+from fastapi.security import OAuth2PasswordBearer,HTTPBearer,HTTPAuthorizationCredentials
 from db_models.models import get_db,User
 import hashlib
 import uuid
@@ -68,12 +68,13 @@ def verify_token(token: str):
     except JWTError:
         raise HTTPException(status_code=401, detail="Token invalid or token Expired")
 
+security = HTTPBearer()
 
 def get_current_user(
-    token: str = Depends(oauth2_scheme),
+    credentials: HTTPAuthorizationCredentials = Depends(security),
     db: Session = Depends(get_db)
 ):  
-    # print("token:",token)
+    token = credentials.credentials
     user_id = verify_token(token)
     user = db.query(User).filter(User.id == user_id).first()
     if user is None:
