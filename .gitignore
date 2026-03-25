@@ -2,3 +2,8 @@ myenv/
 # Environnment folder
 ### env folder
 .env
+alembic.ini
+alembic/
+.env.prod
+certs/
+virenv/

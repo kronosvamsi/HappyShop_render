@@ -2,6 +2,14 @@
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from functools import lru_cache
+from dotenv import load_dotenv
+import os
+
+ENV = os.getenv("ENV", "local")
+if ENV == "prod":
+    load_dotenv(".env.prod",override=True)
+else:
+    load_dotenv(".env",override=True)
 
 class Settings(BaseSettings):
     # This variable will automatically pull from OS environment,
@@ -9,7 +17,7 @@ class Settings(BaseSettings):
     DATABASE_URL: str
 
     # Configuration to load the .env file
-    model_config = SettingsConfigDict(env_file=".env", extra="ignore")
+    # model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 
 @lru_cache()
 def get_settings():

@@ -3,7 +3,8 @@ from sqlalchemy.orm import Session
 from fastapi.responses import JSONResponse
 from sqlalchemy.exc import IntegrityError, OperationalError,DataError
 from data_models.pyd_models import CategoryModel
-from db_models.models import Category,get_db
+from db_models.models import Category
+from db_models.db import get_db
 import logging
 
 

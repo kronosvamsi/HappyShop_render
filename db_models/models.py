@@ -50,7 +50,7 @@ class User(Base):
     firstname=Column(String(50))
     lastname=Column(String(50))
     email=Column(String(50),unique=True, index=True, nullable=False)
-    hashed_password = Column(String(200),nullable=False)
+    hashed_password = Column(String(200),nullable=True)
     is_active = Column(Boolean, default=True)
     created_at = Column(DateTime, default=datetime.utcnow)
     role = Column(String(50), default="user")  ## admin,user
@@ -117,23 +117,3 @@ class UserSession(Base):
 
 # PyMySQL 1.1.2 requires the 'ssl' argument to be a dictionary, 
 # even if empty, to activate TLS encryption for services like Aiven.
-PYMYSQL_CONNECT_ARGS = {
-    'ssl': {}  
-}
-
-engine = create_engine(
-         settings.DATABASE_URL,
-         connect_args=PYMYSQL_CONNECT_ARGS,
-         pool_recycle=3600,
-         echo=True)
-
-Base.metadata.create_all(engine)
-
-Session = sessionmaker(autoflush=False,autocommit=False, bind=engine)
-
-def get_db():
-    session=Session()
-    try:
-        yield session
-    finally:
-        session.close()

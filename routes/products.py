@@ -1,5 +1,6 @@
 from  fastapi import APIRouter,Depends,HTTPException,status
-from db_models.models import get_db,Product
+from db_models.models import Product
+from db_models.db import get_db
 from data_models.pyd_models import ProductModel,ProductInput,ProductUpdate
 from sqlalchemy.orm import Session
 from fastapi.responses import JSONResponse
