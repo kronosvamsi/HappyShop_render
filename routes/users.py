@@ -2,7 +2,8 @@ from fastapi import APIRouter,Depends,HTTPException,status
 from sqlalchemy.orm import Session
 from fastapi.responses import JSONResponse
 from sqlalchemy.exc import IntegrityError, OperationalError
-from db_models.models import User,get_db
+from db_models.models import User
+from db_models.db import get_db
 from data_models.pyd_models import UserModel,UserResponse
 
 # from fastapi.security import OAuth2PasswordRequestForm

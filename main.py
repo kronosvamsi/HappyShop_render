@@ -1,10 +1,10 @@
-from fastapi import FastAPI, Depends,HTTPException,status
-from db_models.models import Session,Product,Category
-from data_models.pyd_models import ProductModel,CategoryModel
+from fastapi import FastAPI
+# from db_models.models import Product,Category
+# from data_models.pyd_models import ProductModel,CategoryModel
 # from  db_models.models import Product
-from sqlalchemy.exc import IntegrityError, OperationalError
+
 from pydantic import ValidationError
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse,JSONResponse
 from routes import products,categories,users,auth
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -70,5 +70,9 @@ def get_root():
     </html>
 
      """
+
+@app.get("/api/status")
+def app_health_check():
+    return JSONResponse(content={"status":"healthy"}, status_code=200)
 
 

@@ -6,7 +6,8 @@ from jose import jwt,JWTError
 from fastapi import Depends, HTTPException
 from sqlalchemy.orm import Session
 from fastapi.security import OAuth2PasswordBearer,HTTPBearer,HTTPAuthorizationCredentials
-from db_models.models import get_db,User
+from db_models.models import User
+from db_models.db import get_db
 import hashlib
 import uuid
 
