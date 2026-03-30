@@ -13,7 +13,7 @@ import uuid
 
 SECRET_KEY = "krishna@123"
 ALGORITHM = "HS256"
-TOKEN_EXPIRE = 15
+TOKEN_EXPIRE = 5
 REFRESH_TOKEN_EXPIRE_DAYS = 7
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -67,6 +67,7 @@ def verify_token(token: str):
         return user_id
 
     except JWTError:
+        print("jwt error")
         raise HTTPException(status_code=401, detail="Token invalid or token Expired")
 
 security = HTTPBearer()
@@ -75,7 +76,10 @@ def get_current_user(
     credentials: HTTPAuthorizationCredentials = Depends(security),
     db: Session = Depends(get_db)
 ):  
+
+    
     token = credentials.credentials
+    print("token", token)
     user_id = verify_token(token)
     user = db.query(User).filter(User.id == user_id).first()
     if user is None:

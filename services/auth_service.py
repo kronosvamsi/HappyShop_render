@@ -35,7 +35,9 @@ def login_user(db, user):
 
     return {
         "access_token": access_token,
-        "refresh_token": refresh_token
+        "refresh_token": refresh_token,
+        "username":user.firstname,
+        "user_id":user.id
     }
 
 def refresh_access_token(db, refresh_token):

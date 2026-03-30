@@ -5,7 +5,7 @@ from fastapi import FastAPI
 
 from pydantic import ValidationError
 from fastapi.responses import HTMLResponse,JSONResponse
-from routes import products,categories,users,auth
+from routes import products,categories,users,auth,random
 from fastapi.middleware.cors import CORSMiddleware
 
 app=FastAPI()
@@ -29,6 +29,7 @@ app.include_router(products.router)
 app.include_router(categories.router)
 app.include_router(users.router)
 app.include_router(auth.router)
+app.include_router(random.router)
 
 # def get_db():
 #     session=Session()

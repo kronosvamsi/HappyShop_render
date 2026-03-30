@@ -18,7 +18,7 @@ router= APIRouter(
 @router.get("/")
 def get_products(session:Session = Depends(get_db)):
     data = product_service.getProducts(session)
-    return JSONResponse(content={"data":data},status_code=200)
+    return JSONResponse(content=data,status_code=200)
     
 
 @router.get('/{product_id}')

@@ -46,9 +46,12 @@ def login(form_data:LoginRequest, db: Session = Depends(get_db)):
 @router.post("/refresh")
 def refresh(refresh_token: str, db: Session = Depends(get_db)):
 
+    # print("Refresh token", refresh_token)
+
     return auth_service.refresh_access_token(db, refresh_token)
 
 @router.post("/logout")
 def refresh(refresh_token: str, db: Session = Depends(get_db)):
 
     return auth_service.logout_user(db, refresh_token)
+
