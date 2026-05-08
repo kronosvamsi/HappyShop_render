@@ -13,7 +13,7 @@ import uuid
 
 SECRET_KEY = "krishna@123"
 ALGORITHM = "HS256"
-TOKEN_EXPIRE = 5
+TOKEN_EXPIRE = 2
 REFRESH_TOKEN_EXPIRE_DAYS = 7
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")

@@ -36,8 +36,8 @@ def get_categories(session:Session = Depends(get_db)) :
     data_items = [CategoryModel.model_validate(item).model_dump() for item in db_categories]
     return JSONResponse(content={"message":"Items fetched from database","items":data_items},status_code=200)
     
-@router.get("/category/{category_id}")
-def get_category_by_id(category_id:int, session:Session = Depends(get_db)):
+@router.get("/{category_id}")
+def get_category(category_id:int, session:Session = Depends(get_db)):
     try:
         category_item = session.get(Category, category_id)
         if category_item is None:
@@ -60,7 +60,7 @@ def get_category_by_id(category_id:int, session:Session = Depends(get_db)):
     return JSONResponse(content={"message":"Item found","item":data_item},status_code=200)
 
 logger = logging.getLogger(__name__)
-@router.post("/addCategory")
+@router.post("/")
 def add_category(new_category:CategoryModel, session:Session =  Depends(get_db)):
     try:
         category_item = new_category.model_dump()
@@ -91,7 +91,7 @@ def add_category(new_category:CategoryModel, session:Session =  Depends(get_db))
     return JSONResponse(content="Item added",status_code=200)
 
 
-@router.put("/updateCategory/{category_id}")
+@router.put("/{category_id}")
 def update_category(category_id:int, update_category:CategoryModel, session:Session = Depends(get_db)):
     try:
         category_item = session.get(Category, category_id)
@@ -119,7 +119,7 @@ def update_category(category_id:int, update_category:CategoryModel, session:Sess
         )
     return JSONResponse(content=f"Category item with ID {category_id} updated",status_code=200)
 
-@router.delete("/deleteCategory/{category_id}")
+@router.delete("/{category_id}")
 def delete_category(category_id:int, session:Session = Depends(get_db)):
     try:
         db_category = session.get(Category, category_id)

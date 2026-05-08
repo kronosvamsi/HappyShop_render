@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from fastapi.responses import JSONResponse
 from db_models.models import User
 from db_models.db import get_db
-from data_models.pyd_models import UserModel,LoginRequest
+from data_models.pyd_models import UserModel,LoginRequest,RefreshToken
 from services import auth_service
 from core.security import hash_password,verify_password,create_access_token
 
@@ -44,14 +44,14 @@ def login(form_data:LoginRequest, db: Session = Depends(get_db)):
     return token
 
 @router.post("/refresh")
-def refresh(refresh_token: str, db: Session = Depends(get_db)):
+def refresh(token: RefreshToken, db: Session = Depends(get_db)):
 
     # print("Refresh token", refresh_token)
 
-    return auth_service.refresh_access_token(db, refresh_token)
+    return auth_service.refresh_access_token(db, token.refresh_token)
 
 @router.post("/logout")
-def refresh(refresh_token: str, db: Session = Depends(get_db)):
+def refresh(token: RefreshToken, db: Session = Depends(get_db)):
 
-    return auth_service.logout_user(db, refresh_token)
+    return auth_service.logout_user(db, token.refresh_token)
 

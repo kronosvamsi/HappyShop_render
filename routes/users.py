@@ -28,8 +28,8 @@ async def get_users(session:Session = Depends(get_db)):
     return db_users
 
 
-@router.get("/user/{user_id}")
-def get_user_by_id(user_id:int, session:Session = Depends(get_db)):
+@router.get("/{user_id}")
+def get_user(user_id:int, session:Session = Depends(get_db)):
     try:
         db_user = session.get(User, user_id)
         if db_user is None:
@@ -50,7 +50,7 @@ def get_user_by_id(user_id:int, session:Session = Depends(get_db)):
     data_item = UserModel.model_validate(db_user).model_dump()
     return JSONResponse(content= {"message":"The userobj by id fetched ","item":data_item},status_code=200)
 
-@router.post('/addUser')
+@router.post('/')
 def addUser(new_user:UserModel, session:Session = Depends(get_db)):
     try:
         user_obj=new_user.model_dump()
@@ -78,7 +78,7 @@ def addUser(new_user:UserModel, session:Session = Depends(get_db)):
     return JSONResponse(content= "User with ID added",status_code=200)
 
 
-@router.put("updateUser/{user_id}")
+@router.put("/{user_id}")
 def update_user(user_id:int, update_user:UserModel, session:Session = Depends(get_db)):
     try:
         db_user=session.get(User,user_id)
@@ -108,7 +108,7 @@ def update_user(user_id:int, update_user:UserModel, session:Session = Depends(ge
     
     return JSONResponse(content=f"The user ID-{user_id} is updated",status_code=200)
 
-@router.delete('/deleteUser/{user_id}')
+@router.delete('/{user_id}')
 def delete_user(user_id:int, session:Session = Depends(get_db)):
     try:
         db_user = session.get(User, user_id)
@@ -134,38 +134,3 @@ def delete_user(user_id:int, session:Session = Depends(get_db)):
 
     return JSONResponse(content= f"The user ID {user_id} deleted ",status_code=200)
 
-
-
-
-
-# @router.post("/login")
-# def login(
-#     form_data: OAuth2PasswordRequestForm = Depends(),
-#     db: Session = Depends(get_db)
-# ):
-#     user = db.query(User).filter(User.email == form_data.username).first()
-
-#     if not user or not verify_password(form_data.password, user.hashed_password):
-#         raise HTTPException(
-#             status_code=status.HTTP_401_UNAUTHORIZED,
-#             detail="Invalid credentials"
-#         )
-
-#     token = create_access_token({"sub": user.email, "role": user.role})
-#     return {"access_token": token, "token_type": "bearer"}
-
-
-# @router.get("/profile")
-# def get_profile(current_user: User = Depends(get_current_user)):
-#     return {
-#         "email": current_user.email,
-#         "role": current_user.role
-#     }
-
-
-# def require_role(role: str):
-#     def role_checker(user: User = Depends(get_current_user)):
-#         if user.role != role:
-#             raise HTTPException(status_code=403, detail="Access denied")
-#         return user
-#     return role_checker

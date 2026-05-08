@@ -56,6 +56,9 @@ class LoginRequest(BaseModel):
     username:str
     password:str
 
+class RefreshToken(BaseModel):
+    refresh_token:str
+
 class ProductInput(BaseModel):
     category_id:int
     name:str
