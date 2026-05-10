@@ -98,7 +98,7 @@ class CategoryService:
         try:
             category_item = self._session.get(Category, id)
             if category_item is None:
-                raise HTTPException(status_code=404, content=f"The category item with ID {id} not found")
+                raise HTTPException(status_code=404, detail=f"The category item with ID {id} not found")
             
             update_item=update_category.model_dump(exclude_unset=True)
             for key,val in update_item.items():
