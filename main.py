@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI,Request
 # from db_models.models import Product,Category
 # from data_models.pyd_models import ProductModel,CategoryModel
 # from  db_models.models import Product
@@ -39,7 +39,10 @@ app.include_router(random.router)
 #         session.close()
 
 @app.get("/",response_class=HTMLResponse)
-def get_root():
+def get_root(request:Request):
+    client, port = request.client
+    port = 8000 if client == "local" or "127.0.0.1" else port
+    
     return f"""
     <html>
     <head> 
@@ -59,13 +62,13 @@ def get_root():
     <h2>Categories End points </h2>
     <ul style = "padding:1px;">
      <li style = "font-size:16px; margin:3px 0px "> <code style = "color:#F2F2F2"> /categories </code>        :  It fecthes the category Items from DB  </li>
-     <li style = "font-size:16px; margin:3px 0px;"> <code style = "color:#F2F2F2; "> /categories/category/category_id:Int </code>     : To fetch the single category item by id  </li>
-     <li style = "font-size:16px; margin:3px 0px;"> <code style = "color:#F2F2F2; "> /categories/addCategory </code>    :  To add the new category item  </li>
-     <li style = "font-size:16px; margin:3px 0px;"> <code style = "color:#F2F2F2; "> /categories/updateCategory/category_id:Int </code>     :   To update the category item by id  </li>
-     <li style = "font-size:16px; margin:3px 0px;"> <code style = "color:#F2F2F2;">  /categories/deleteCategory/category_id:Int </code>    :   To delete the category item from DB by id  </li>
+     <li style = "font-size:16px; margin:3px 0px;"> <code style = "color:#F2F2F2; "> /categories/category_id:Int </code>     : To fetch the single category item by id  </li>
+     <li style = "font-size:16px; margin:3px 0px;"> <code style = "color:#F2F2F2; "> /categories </code>    :  To add the new category item  </li>
+     <li style = "font-size:16px; margin:3px 0px;"> <code style = "color:#F2F2F2; "> /categories/category_id:Int </code>     :   To update the category item by id  </li>
+     <li style = "font-size:16px; margin:3px 0px;"> <code style = "color:#F2F2F2;">  /categories/category_id:Int </code>    :   To delete the category item from DB by id  </li>
      </ul>
      
-     <p> Go to url <a style="color:#488cfa;" href="https://happyshop-render.onrender.com/docs"> happyshop_api_docs </a> to get more info </p>
+     <p> Go to url <a style="color:#488cfa;" href=http://{client}:{port}/docs> happyshop_api_docs </a> to get more info </p>
      </body>
     
     </html>

@@ -10,14 +10,14 @@ A fully functional e-commerce backend built with **FastAPI**, **SQLAlchemy**, an
 
 ## 🧰 Tech Stack
 
-| Layer | Technology |
-|---|---|
-| Backend Framework | FastAPI |
-| ORM | SQLAlchemy |
-| Database | MySQL |
-| Authentication | JWT (Access + Refresh Tokens) |
-| Frontend | React |
-| Deployment | Render (Free Tier — Backend only) |
+| Layer             | Technology                        |
+| ----------------- | --------------------------------- |
+| Backend Framework | FastAPI                           |
+| ORM               | SQLAlchemy                        |
+| Database          | MySQL                             |
+| Authentication    | JWT (Access + Refresh Tokens)     |
+| Frontend          | React                             |
+| Deployment        | Render (Free Tier — Backend only) |
 
 ---
 
@@ -48,12 +48,12 @@ The auth system uses **JWT tokens** with both access and refresh token flow:
 
 ### Auth Endpoints
 
-| Method | Endpoint | Description |
-|---|---|---|
-| POST | `/auth/register` | Register a new user |
-| POST | `/auth/login` | Login and receive access + refresh tokens |
-| POST | `/auth/refresh` | Get a new access token using refresh token |
-| POST | `/auth/logout` | Logout and invalidate session |
+| Method | Endpoint         | Description                                |
+| ------ | ---------------- | ------------------------------------------ |
+| POST   | `/auth/register` | Register a new user                        |
+| POST   | `/auth/login`    | Login and receive access + refresh tokens  |
+| POST   | `/auth/refresh`  | Get a new access token using refresh token |
+| POST   | `/auth/logout`   | Logout and invalidate session              |
 
 ---
 
@@ -61,32 +61,32 @@ The auth system uses **JWT tokens** with both access and refresh token flow:
 
 ### Products — `/products`
 
-| Method | Endpoint | Description | Auth Required |
-|---|---|---|---|
-| GET | `/products` | Get all products | No |
-| GET | `/products/{id}` | Get product by ID | No |
-| POST | `/products` | Create a new product | Yes |
-| PUT | `/products/{id}` | Update a product | Yes |
-| DELETE | `/products/{id}` | Delete a product | Yes |
+| Method | Endpoint         | Description          | Auth Required |
+| ------ | ---------------- | -------------------- | ------------- |
+| GET    | `/products`      | Get all products     | No            |
+| GET    | `/products/{id}` | Get product by ID    | No            |
+| POST   | `/products`      | Create a new product | Yes           |
+| PUT    | `/products/{id}` | Update a product     | Yes           |
+| DELETE | `/products/{id}` | Delete a product     | Yes           |
 
 ### Categories — `/categories`
 
-| Method | Endpoint | Description | Auth Required |
-|---|---|---|---|
-| GET | `/categories` | Get all categories | No |
-| GET | `/categories/{id}` | Get category by ID | No |
-| POST | `/categories` | Create a new category | Yes |
-| PUT | `/categories/{id}` | Update a category | Yes |
-| DELETE | `/categories/{id}` | Delete a category | Yes |
+| Method | Endpoint           | Description           | Auth Required |
+| ------ | ------------------ | --------------------- | ------------- |
+| GET    | `/categories`      | Get all categories    | No            |
+| GET    | `/categories/{id}` | Get category by ID    | No            |
+| POST   | `/categories`      | Create a new category | Yes           |
+| PUT    | `/categories/{id}` | Update a category     | Yes           |
+| DELETE | `/categories/{id}` | Delete a category     | Yes           |
 
 ### Users — `/users`
 
-| Method | Endpoint | Description | Auth Required |
-|---|---|---|---|
-| GET | `/users` | Get all users | Yes (Admin) |
-| GET | `/users/{id}` | Get user by ID | Yes |
-| PUT | `/users/{id}` | Update user profile | Yes |
-| DELETE | `/users/{id}` | Delete user | Yes (Admin) |
+| Method | Endpoint      | Description         | Auth Required |
+| ------ | ------------- | ------------------- | ------------- |
+| GET    | `/users`      | Get all users       | Yes (Admin)   |
+| GET    | `/users/{id}` | Get user by ID      | Yes           |
+| PUT    | `/users/{id}` | Update user profile | Yes           |
+| DELETE | `/users/{id}` | Delete user         | Yes (Admin)   |
 
 ---
 
@@ -109,6 +109,7 @@ Using both tokens reduces security risk — short-lived access tokens limit expo
 ## 🚀 Getting Started Locally
 
 ### Prerequisites
+
 - Python 3.9+
 - MySQL running locally
 
