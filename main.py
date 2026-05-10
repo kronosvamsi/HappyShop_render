@@ -42,9 +42,9 @@ app.include_router(random.router)
 def get_root(request:Request):
     client = request.client.host
     port = request.client.port
-    print("client", client)
-    prod_hostname = "happyshop-render.onrender.com"
-    url = f"{request.url.scheme}://{client}:{port}" if client == "local" or "127.0.0.1" else f"{request.url.scheme}://{prod_hostname}/docs"
+    prod_hostname = 'happyshop-render.onrender.com'
+    url = f"{request.url.scheme}://{client}:8000/docs" if client == "local" or client == "127.0.0.1" else f"{request.url.scheme}://{prod_hostname}/docs"
+    print("url",url)
     
     return f"""
     <html>
