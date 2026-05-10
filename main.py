@@ -43,7 +43,9 @@ def get_root(request:Request):
     client = request.client.host
     port = request.client.port
     print("client", client)
-    port = 8000 if client == "local" or "127.0.0.1" else port
+    prod_hostname = "happyshop-render.onrender.com"
+    url = f"{request.url.scheme}://{client}:{port}" if client == "local" or "127.0.0.1" else f"{request.url.scheme}://{prod_hostname}/docs"
+    
     return f"""
     <html>
     <head> 
@@ -69,7 +71,7 @@ def get_root(request:Request):
      <li style = "font-size:16px; margin:3px 0px;"> <code style = "color:#F2F2F2;">  /categories/category_id:Int </code>    :   To delete the category item from DB by id  </li>
      </ul>
      
-     <p> Go to url <a style="color:#488cfa;" href={request.url.scheme}://{client}:{port}/docs> happyshop_api_docs </a> to get more info </p>
+     <p> Go to url <a style="color:#488cfa;" href={url}> happyshop_api_docs </a> to get more info </p>
      </body>
     
     </html>
