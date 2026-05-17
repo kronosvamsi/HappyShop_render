@@ -115,7 +115,6 @@ class CategoryService:
                 status_code=status.HTTP_409_CONFLICT, 
                 detail="Data conflict (e.g., duplicate unique key or missing foreign key).")
 
-            
         except OperationalError:
             self._session.rollback()
             raise HTTPException(

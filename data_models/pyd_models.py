@@ -53,7 +53,7 @@ class UserResponse(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
 class LoginRequest(BaseModel):
-    username:str
+    email:str
     password:str
 
 class RefreshToken(BaseModel):

@@ -32,7 +32,7 @@ def login(form_data:LoginRequest, db: Session = Depends(get_db)):
 
     # print("form", form_data)
 
-    user = auth_service.get_user_by_email(db, form_data.username)
+    user = auth_service.get_user_by_email(db, form_data.email)
 
     if not user:
         raise HTTPException(status_code=401, detail="Invalid credentials")

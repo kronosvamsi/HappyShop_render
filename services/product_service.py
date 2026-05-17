@@ -63,7 +63,6 @@ def addProduct(session,new_product):
     
     return ProductModel.model_validate(db_product).model_dump()
     
-    pass
 
 
 def updateProduct(session, update_item,product_id):
