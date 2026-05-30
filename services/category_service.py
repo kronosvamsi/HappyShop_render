@@ -3,7 +3,7 @@ from fastapi import HTTPException, status, Depends
 from data_models.pyd_models import CategoryModel
 from db_models.models import Category
 from db_models.db import get_db
-from exceptions.db_exception import db_exception 
+from exceptions.DB_exception import db_exception 
 
 
 class CategoryService:
