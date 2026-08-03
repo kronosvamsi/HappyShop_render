@@ -24,7 +24,7 @@ class Product(Base):
     category_id = Column(Integer,ForeignKey("categories.id"))
     quantity = Column(Integer,default=0)
     price = Column(Float,default=0.0)
-    
+    image_url = Column(String(255), nullable=True, default="https://placehold.co")
     category_rel = relationship("Category", back_populates="products")
     orders=relationship("Order",back_populates="product")
 

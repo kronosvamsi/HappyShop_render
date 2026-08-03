@@ -45,3 +45,24 @@ def delete_product(product_id:int, session:Session = Depends(get_db), user:User 
         item_id = product_service.deleteProduct(session,product_id)
         return JSONResponse(content=f"Item with ID{item_id} deleted",status_code=200)
     
+
+@router.delete("/clear-all", status_code=status.HTTP_200_OK)
+def clear_all_products(db: Session = Depends(get_db)):
+    """
+    Deletes all products from the database to reset the catalog.
+    """
+    try:
+        # Counts items before dropping them for a clean confirmation message
+        num_deleted = db.query(Product).delete(synchronize_session=False)
+        db.commit()
+        
+        return {
+            "status": "success", 
+            "message": f"Successfully cleared catalog. Deleted {num_deleted} products."
+        }
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Database error during deletion: {str(e)}"
+        )
