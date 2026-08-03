@@ -2,7 +2,7 @@ from db_models.models import Product
 from data_models.pyd_models import ProductInput,ProductModel
 from sqlalchemy.exc import IntegrityError, OperationalError
 from fastapi import HTTPException,status
-from  exceptions.DB_exception import db_exception
+from  exceptions.db_exception import db_exception
 
 @db_exception
 def getProducts(session):

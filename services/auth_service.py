@@ -10,7 +10,6 @@ def get_user_by_email(session, email):
     user_email = session.query(User).filter(User.email == email).first()
     return user_email
 
-
 def create_user(session,firstname,email,hash_password):
     user = User(firstname= firstname,email=email,hashed_password=hash_password)
     session.add(user)
